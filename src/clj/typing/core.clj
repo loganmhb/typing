@@ -1,4 +1,4 @@
-(ns om-tutorial.core
+(ns typing.core
   (:require [compojure.core :refer [defroutes GET]]
             [org.httpkit.server :refer [run-server]]))
 
