@@ -9,7 +9,7 @@
 (defroutes app
   (GET "/" []
        {:status 200
-        :headers {"content-type" "application/json"}
+        :headers {"Content-Type" "application/json"}
         :body @messages})
   (POST "/messages/" req
     (let [body (-> req
