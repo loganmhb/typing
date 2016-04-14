@@ -2,3 +2,9 @@ resources/public/js
 target/
 figwheel_server.log
 .nrepl-port
+pom.xml
+.lein-failures
+.#*.clj
+
+# Vim
+.swp

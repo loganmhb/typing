@@ -1,12 +1,16 @@
 (ns typing.core
-  (:require [compojure.core :refer [defroutes GET]]
-            [org.httpkit.server :refer [run-server]]))
+  (:require [compojure.core :refer [defroutes GET POST]]
+            [org.httpkit.server :refer [run-server]]
+            [cheshire.core]))
+
 
 (def messages (atom {}))
 
 (defroutes app
   (GET "/" []
-    {:status 200 :body @messages})
+       {:status 200
+        :headers {"content-type" "application/json"}
+        :body @messages})
   (POST "/messages/" req
     (let [body (-> req
                    :body
