@@ -5,7 +5,17 @@
 
 (enable-console-print!)
 
-(def app-state (atom {:messages []}))
+(def app-state
+  (atom {:messages [{:author "Logan"
+                     :text "hi there"}]}))
+
+(defn read [{:keys [state] :as env} key params]
+  {:value (get @state key :not-found)})
+
+(def reconciler
+  (om/reconciler
+   {:state app-state
+    :parser (om/parser {:read read})}))
 
 (defui Message
   Object
@@ -16,6 +26,9 @@
 (def message (om/factory Message))
 
 (defui MessageList
+  static om/IQuery
+  (query [this]
+    [:messages])
   Object
   (render [this]
     (let [{:keys [messages]} (om/props this)]
@@ -24,6 +37,9 @@
 (def message-list (om/factory MessageList))
 
 (defui Chat
+  static om/IQuery
+  (query [this]
+    `[{:messages ~(om/get-query MessageList)}])
   Object
   (render [this]
     (let [{:keys [messages]} (om/props this)]
@@ -33,5 +49,5 @@
 
 (def chat (om/factory Chat))
 
-(js/ReactDOM.render (chat {:messages [{:author "Logan" :text "Hi there!"}]})
-                    (gdom/getElement "app"))
+(om/add-root! reconciler Chat (gdom/getElement "app"))
+
