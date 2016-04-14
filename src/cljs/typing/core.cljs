@@ -5,13 +5,33 @@
 
 (enable-console-print!)
 
-(defui HelloWorld
+(def app-state (atom {:messages []}))
+
+(defui Message
   Object
   (render [this]
-    (dom/div nil (get (om/props this) :title))))
+    (let [{:keys [text author]} (om/props this)]
+      (dom/p nil (str author ": " text)))))
 
-(def hello (om/factory HelloWorld))
+(def message (om/factory Message))
 
-(js/ReactDOM.render (apply dom/div nil [(hello {:title "Sam"})
-                                        (hello {:title "Logan"})])
+(defui MessageList
+  Object
+  (render [this]
+    (let [{:keys [messages]} (om/props this)]
+      (dom/div nil (map message messages)))))
+
+(def message-list (om/factory MessageList))
+
+(defui Chat
+  Object
+  (render [this]
+    (let [{:keys [messages]} (om/props this)]
+      (dom/div nil
+               (message-list {:messages messages})
+               (dom/input nil)))))
+
+(def chat (om/factory Chat))
+
+(js/ReactDOM.render (chat {:messages [{:author "Logan" :text "Hi there!"}]})
                     (gdom/getElement "app"))
