@@ -3,14 +3,13 @@
             [org.httpkit.server :refer [run-server]]
             [cheshire.core]))
 
-
 (def messages (atom {}))
 
 (defroutes app
   (GET "/" []
-       {:status 200
-        :headers {"Content-Type" "application/json"}
-        :body @messages})
+    {:status 200
+     :headers {"Content-Type" "application/json"}
+     :body @messages})
   (POST "/messages/" req
     (let [body (-> req
                    :body

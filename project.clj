@@ -8,8 +8,6 @@
                  [compojure "1.5.0"]
                  [ring "1.4.0"]
                  [cheshire "5.5.0"]]
-  :profiles {:dev {:dependencies [[speclj "3.3.0"]
-                                  [ring/ring-mock "0.3.0"]]}}
-  :plugins [[speclj "3.3.0"]]
+  :profiles {:dev {:dependencies [[ring/ring-mock "0.3.0"]]}}
   :source-paths ["src/clj"]
-  :test-paths ["spec/clj"])
+  :test-paths ["test/clj"])
